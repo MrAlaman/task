@@ -68,54 +68,56 @@
 export default {
 
   name: 'edit',
-  data() {
-    return {
-      editIndex: null,
-      originalData: null,
-      users: [
-        { name: 'Cuka', surname: ' Eahal', number: "328555484", email: "lorem@ips.com" },
-        { name: 'Kubis', surname: 'Enak', number: "33664518", email: "losadrem@ips.com" },
-      ]
+  computed: {
+    users() {
+      return this.$store.state.users
+    },
+    editIndex: {
+      get(){
+        return this.$store.state.editIndex
+      }
+    },
+    originalData: {
+      get() {
+        return this.state.originalData
+      }
     }
-  },
 
+  },
   methods: {
 
     add() {
-      this.originalData = null
-      this.users.push({ name: '', surname: '', number: "", email: ""})
-      this.editIndex = this.users.length - 1
+      this.$store.dispatch('addUser')
     },
 
     edit(user, index) {
-      this.originalData = Object.assign({}, user)
-      this.editIndex = index
+      this.$store.state.originalData = Object.assign({}, user)
+      this.$store.state.editIndex = index
     },
 
     cancel(user) {
-      this.editIndex = null
+      this.$store.state.editIndex = null
 
-      if (!this.originalData) {
-        this.users.splice(this.users.indexOf(user), 1)
+      if (!this.$store.state.originalData) {
+        this.$store.state.users.splice(this.$store.state.users.indexOf(user), 1)
         return
       }
 
-      Object.assign(user, this.originalData)
-      this.originalData = null
+      Object.assign(user, this.$store.state.originalData)
+      this.$store.state.originalData = null
     },
 
     remove(user, index) {
       this.users.splice(index, 1)
     },
 
-    save() {
-      this.originalData = null
-      this.editIndex = null
+    save(user) {
+      this.$store.dispatch('save')
     },
 
     imp() {
       var resp = JSON.parse(this.$refs.json.value)
-        this.users.push({ name: resp.name, surname: resp.surname, number: resp.number, email: resp.email})
+        this.$store.state.users.push({ name: resp.name, surname: resp.surname, number: resp.number, email: resp.email})
       }
     }
 }

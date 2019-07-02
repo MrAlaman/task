@@ -50,15 +50,20 @@
 export default {
 
   name: 'kk',
-  data() {
-    return {
-      editIndex: null,
-      originalData: null,
-      users: [
-        { name: 'Cuka', surname: ' Eahal', number: "328555484", email: "lorem@ips.com" },
-        { name: 'Kubis', surname: 'Enak', number: "33664518", email: "losadrem@ips.com" },
-      ]
+   computed: {
+    users() {
+      return this.$store.state.users
+    },
+    editIndex: {
+      get(){
+        return this.$store.state.editIndex
+      }
+    },
+    originalData: {
+      get() {
+        return this.state.originalData
+      }
     }
-  }
+}
 }
 </script>
