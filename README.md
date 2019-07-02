@@ -1,3 +1,5 @@
 # MrAlaman
 
-* for run use npm run serve
+* to start write: 
+* npm i
+* npm run serve
